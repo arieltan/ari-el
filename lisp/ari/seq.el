@@ -20,5 +20,14 @@
               (append to-list elems-nodup)
               (append elems-nodup to-list)))))
 
+(defun ari-seq:flatten (x)
+  (labels ((rec (x acc)
+             (cond ((null x) acc)
+                   ((atom x) (cons x acc))
+                   (t (rec
+                       (car x)
+                       (rec (cdr x) acc))))))
+    (rec x nil)))
+
 (provide 'ari/seq)
 ;; ari/seq.el ends here
