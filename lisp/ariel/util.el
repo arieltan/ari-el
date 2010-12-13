@@ -1,3 +1,0 @@
-;;; sample.
-
-(provide 'ariel/util)

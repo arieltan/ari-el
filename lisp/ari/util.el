@@ -1,0 +1,3 @@
+;;; sample.
+
+(provide 'ari/util)
