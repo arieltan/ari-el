@@ -8,17 +8,19 @@
 
 (require 'cl)
 
-;; FIXME: won't modify to-list variable. unit tests fails.
-(defun ari-seq:append-to-list (to-list elements &optional append compare-fn)
+;; FIXME: this should be as a function
+(defmacro ari-seq:append-to-list (to-list elements &optional appendp compare-fn)
   "Append elements to to-list."
-  (let ((elems-nodup (loop for elem in elements
-                            unless (find elem to-list
-                                         :test (or compare-fn #'equal))
-                              collect elem)))
-    (setq to-list
-          (if append
-              (append to-list elems-nodup)
-              (append elems-nodup to-list)))))
+  (let ((elems-nodup (gensym))
+        (elem (gensym)))
+    `(let ((,elems-nodup (loop for ,elem in ,elements
+                               unless (find ,elem ,to-list
+                                            :test (or ,compare-fn #'equal))
+                                 collect ,elem)))
+       (setq ,to-list
+             ,(if appendp
+                  `(append ,to-list ,elems-nodup)
+                  `(append ,elems-nodup ,to-list))))))
 
 (defun ari-seq:flatten (x)
   (labels ((rec (x acc)
