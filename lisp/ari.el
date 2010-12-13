@@ -53,5 +53,9 @@
        `(let ,(mapcar #'list (list ,@gs) (list ,@os))
           ,(progn ,@body)))))
 
+(defmacro ari:aif (test then &optional else)
+  `(let ((it ,test))
+     (if it ,then ,else)))
+
 (provide 'ari)
 ;; ari ends here
