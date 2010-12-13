@@ -8,6 +8,7 @@
 
 (require 'cl)
 
+;; FIXME: won't modify to-list variable. unit tests fails.
 (defun ari-seq:append-to-list (to-list elements &optional append compare-fn)
   "Append elements to to-list."
   (let ((elems-nodup (loop for elem in elements
