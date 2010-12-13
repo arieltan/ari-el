@@ -32,6 +32,7 @@
      (concat (substring str 0 (1- (length str))) "#"))))
 
 (defmacro ari:defmacro/g! (name args &body body)
+  (declare (indent defun))
   "`defmacro` with auto-gensym."
   (let ((symbs (remove-duplicates
                 (remove-if-not #'ari:%sharp-symbol-p
@@ -46,6 +47,7 @@
          ,@body))))
 
 (defmacro ari:defmacro* (name args &body body)
+  (declare (indent defun))
   "`defmacro` with auto-gensym and once-only."
   (let* ((os (remove-if-not #'ari:%percent-symbol-p args))
          (gs (mapcar #'ari:%percent-symbol-to-sharp-symbol os)))
@@ -54,6 +56,7 @@
           ,(progn ,@body)))))
 
 (defmacro ari:aif (test then &optional else)
+  (declare (indent 2))
   `(let ((it ,test))
      (if it ,then ,else)))
 
