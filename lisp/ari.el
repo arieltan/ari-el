@@ -51,6 +51,17 @@
        `(let ,(mapcar* #'list (list ,@gs) (list ,@os))
           ,(progn ,@body)))))
 
+(defmacro ari:with-gensyms (names &rest body)
+  `(let ,(loop for n in names collect `(,n (gensym)))
+     ,@body))
+
+(defmacro ari:once-only (names &rest body)
+  (let ((gensyms (loop for n in names collect (gensym))))
+    `(let (,@(loop for g in gensyms collect `(,g (gensym))))
+      `(let (,,@(loop for g in gensyms for n in names collect ``(,,g ,,n)))
+        ,(let (,@(loop for n in names for g in gensyms collect `(,n ,g)))
+           ,@body)))))
+
 (defmacro ari:aif (test then &optional else)
   (declare (indent 2))
   `(let ((it ,test))
