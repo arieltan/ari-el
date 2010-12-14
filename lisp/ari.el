@@ -16,6 +16,14 @@
   `(when (locate-library ,(symbol-name lib))
      (require ',lib) ,@body t))
 
+(defmacro ari:autoload (func lib &rest body)
+  "Autoload a library safely."
+  `(when (locate-library ,lib)
+     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
+     (eval-after-load ,lib
+       '(progn
+         ,@body)) t))
+
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
   (and (symbolp s)
