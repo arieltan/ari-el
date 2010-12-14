@@ -21,6 +21,7 @@ This is an useful library collection for Emacs, written by Emacs users in Ariel 
 * Write DocString in each functions unless the behavior is too clear.
 * Add a package name to each functions at a front of it's name (ex. ari-util:compose / don't use global namespace).
 * Add `#'' prefix to any LAMBDA.
+* Private functions are given a name starts with it's namespace and '%' (ex. ari:%g!-symbol-p)
 
 ## Bugs
 
