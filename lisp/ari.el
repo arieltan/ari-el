@@ -24,6 +24,13 @@
        '(progn
          ,@body)) t))
 
+(defmacro ari:add-hook-fn (name &rest body)
+  "Add a hook as a lambda.".
+  `(add-hook ,name #'(lambda () ,@body)))
+
+(defmacro ari:global-set-key-fn (key &rest body)
+  `(global-set-key ,key #'(lambda () (interactive) ,@body)))
+
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
   (and (symbolp s)
