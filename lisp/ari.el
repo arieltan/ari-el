@@ -67,5 +67,48 @@
   `(let ((it ,test))
      (if it ,then ,else)))
 
+(defmacro ari:awhen (test &rest body)
+  `(ari:aif ,test (progn ,@body)))
+
+(defmacro ari:aand (&rest args)
+  (cond ((null args) t)
+        ((null (cdr args)) (car args))
+        (t `(ari:aif ,(car args) (ari:aand ,@(cdr args))))))
+
+(defmacro ari:alambda (params &rest body)
+  `(labels ((self ,params ,@body))
+     #'self))
+
+(ari:defmacro* ari:dlambda (&rest ds)
+  `(lambda (&rest ,g!args)
+     (case (car ,g!args)
+       ,@(mapcar
+          (lambda (d)
+            `(,(if (eq t (car d))
+                   t
+                   (list (car d)))
+               (apply (lambda ,@(cdr d))
+                      ,(if (eq t (car d))
+                           g!args
+                           `(cdr ,g!args)))))
+          ds))))
+
+(defmacro ari:alet (letargs &rest body)
+  (declare (indent 2))
+  `(let ((this) ,@(ari-seq:group letargs 2))
+     (setq this ,@(last body))
+     ,@(butlast body)
+     (lambda (&rest params)
+       (apply this params))))
+
+(ari:defmacro* ari:acond (&rest clauses)
+  (declare (indent 2))
+  (unless (null clauses)
+    (let ((cl1 (car clauses)))
+      `(let (it (,g!sym ,(car cl1)))
+         (if ,g!sym
+             (let ((it ,g!sym)) ,@(cdr cl1))
+             (ari:acond ,@(cdr clauses)))))))
+
 (provide 'ari)
 ;; ari ends here
