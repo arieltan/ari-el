@@ -11,6 +11,11 @@
 
 (defvar ari-version 0.1)
 
+(defmacro ari:require (lib &rest body)
+  "Require a library safely."
+  `(when (locate-library ,(symbol-name lib))
+     (require ',lib) ,@body t))
+
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
   (and (symbolp s)
