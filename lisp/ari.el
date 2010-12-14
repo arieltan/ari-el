@@ -11,48 +11,44 @@
 
 (defvar ari-version 0.1)
 
-(defun ari:%sharp-symbol-p (s)
-  "Returns whether a symbol ends with #"
-  (when (symbolp s)
-    (let* ((str (symbol-name s))
-           (len (length str)))
-      (string= (substring str (1- len) len) "#"))))
+(defun ari:%g!-symbol-p (s)
+  "Returns whether a symbol starts with G!"
+  (and (symbolp s)
+       (> (length (symbol-name s)) 2)
+       (string= (downcase (substring (symbol-name s) 0 2)) "g!")))
 
-(defun ari:%percent-symbol-p (s)
-  "Returns whether a symbol ends with %"
-  (when (symbolp s)
-    (let* ((str (symbol-name s))
-           (len (length str)))
-      (string= (substring str (1- len) len) "%"))))
+(defun ari:%o!-symbol-p (s)
+  "Returns whether a symbol starts with O!"
+  (and (symbolp s)
+       (> (length (symbol-name s)) 2)
+       (string= (downcase (substring (symbol-name s) 0 2)) "o!")))
 
-(defun ari:%percent-symbol-to-sharp-symbol (s)
-  "Convert a percent-ended symbol to a sharp-ended symbol and return that."
-  (let ((str (symbol-name s)))
-    (make-symbol
-     (concat (substring str 0 (1- (length str))) "#"))))
+(defun ari:%o!-symbol-to-g!-symbol (s)
+  "Convert a o!-symbol to a g!-symbol and return that."
+  (make-symbol (concat "g!" (substring (symbol-name s) 2))))
 
-(defmacro ari:defmacro/g! (name args &body body)
+(defmacro ari:defmacro/g! (name args &rest body)
   (declare (indent defun))
   "`defmacro` with auto-gensym."
   (let ((symbs (remove-duplicates
-                (remove-if-not #'ari:%sharp-symbol-p
+                (remove-if-not #'ari:%g!-symbol-p
                                (ari-seq:flatten body)))))
     `(defmacro ,name ,args
        (let ,(mapcar
               (lambda (s)
                 `(,s (gensym ,(substring
                                (symbol-name s)
-                               2))))
+                               0 2))))
               symbs)
          ,@body))))
 
-(defmacro ari:defmacro* (name args &body body)
+(defmacro ari:defmacro* (name args &rest body)
   (declare (indent defun))
   "`defmacro` with auto-gensym and once-only."
-  (let* ((os (remove-if-not #'ari:%percent-symbol-p args))
-         (gs (mapcar #'ari:%percent-symbol-to-sharp-symbol os)))
+  (let* ((os (remove-if-not #'ari:%o!-symbol-p args))
+         (gs (mapcar #'ari:%o!-symbol-to-g!-symbol os)))
     `(ari:defmacro/g! ,name ,args
-       `(let ,(mapcar #'list (list ,@gs) (list ,@os))
+       `(let ,(mapcar* #'list (list ,@gs) (list ,@os))
           ,(progn ,@body)))))
 
 (defmacro ari:aif (test then &optional else)
