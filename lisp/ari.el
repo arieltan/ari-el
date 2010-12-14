@@ -25,11 +25,29 @@
          ,@body)) t))
 
 (defmacro ari:add-hook-fn (name &rest body)
-  "Add a hook as a lambda.".
+  "Add a hook as a lambda."
   `(add-hook ,name #'(lambda () ,@body)))
 
 (defmacro ari:global-set-key-fn (key &rest body)
   `(global-set-key ,key #'(lambda () (interactive) ,@body)))
+
+(defmacro ari:defadvice-many (fn-name-list class &rest body)
+  "Define advices, having same body forms."
+  `(progn
+     ,@(mapcar
+        (lambda (fn)
+          `(defadvice ,fn (,class ,(intern (concat (symbol-name fn) "-" (symbol-name class) "-advice")) activate)
+             ,@body)) fn-name-list)))
+
+(defun ari:define-key-many (keymap key-table &optional includes)
+  "Batch to define keys."
+  (let (key cmd)
+    (dolist (key-cmd key-table)
+      (setq key (car key-cmd)
+            cmd (cdr key-cmd))
+      (if (or (not includes) (member key includes))
+        (define-key keymap key cmd))))
+  keymap)
 
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
