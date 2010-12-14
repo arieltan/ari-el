@@ -2,7 +2,7 @@
 
 ## Description
 
-This is an useful library collection for Emacs, written by Emacs users in Ariel Networks, Inc.
+This is an useful library collection for Emacs, written by Emacs users in Ariel Networks, Inc., writing articles about Emacs for SoftwareDesign.
 
 ## Installation
 
@@ -11,18 +11,20 @@ This is an useful library collection for Emacs, written by Emacs users in Ariel 
 ## Packages
 
 * ari
+* ari-fn
+* ari-seq
+* ari-string
 * ari-util
 
-## Coding standard
+## Something like a "Coding standard"
 
-* Write DocString in each functions.
-* Add a package name to each functions (ex. ari-util:aif / don't use global namespace).
+* Write DocString in each functions unless the behavior is too clear.
+* Add a package name to each functions at a front of it's name (ex. ari-util:compose / don't use global namespace).
+* Add `#'' prefix to any LAMBDA.
 
 ## Bugs
 
 ## Contributors
-
-Written by Emacs users in Ariel Networks, writing articles about Emacs for SoftwareDesign.
 
 * Taiki SUGAWARA &lt;sugawara_t@ariel-networks.com&gt;
 * Eitarow FUKAMACHI &lt;fukamachi_e@ariel-networks.com&gt;
