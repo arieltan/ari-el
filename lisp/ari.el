@@ -11,11 +11,15 @@
 
 (defvar ari-version 0.1)
 
+;; NOTE: Is this enough to clear to take forms?
+;; NOTE: Should to raise any warnings?
 (defmacro ari:require (lib &rest body)
   "Require a library safely."
   `(when (locate-library ,(symbol-name lib))
      (require ',lib) ,@body t))
 
+;; NOTE: Is this enough to clear that taking body?
+;; NOTE: Should to raise any warnings?
 (defmacro ari:autoload (func lib &rest body)
   "Autoload a library safely."
   `(when (locate-library ,lib)
