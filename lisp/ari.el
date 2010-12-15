@@ -180,19 +180,21 @@
   (let ((symbs (remove-duplicates (ari-seq:flatten body))))
     (multiple-value-bind (fn mac)
         (loop for s in symbs
-              for fn = (ignore-errors (symbol-function (ari:ari-symbol s pkg)))
+              for fn = (ari:ari-symbol s pkg)
               with fn-lst = nil
               with mac-lst = nil
               when fn
-                if (functionp fn) do (add-to-list 'fn-lst `(,s ,fn))
-                  else do (add-to-list 'mac-lst `(,s ,(cdr fn)))
+                if (functionp (symbol-function fn))
+                  do (add-to-list 'fn-lst `(,s ,fn))
+              else do (add-to-list 'mac-lst `(,s ,fn))
               finally return (values fn-lst mac-lst))
       `(macrolet ,(loop for (s m) in mac
                         collect `(,s (&rest ,g!args1)
-                                     (apply ,m ,g!args1)))
+                                     (apply (cdr (symbol-function ',m))
+                                            ,g!args1)))
          (flet ,(loop for (s f) in fn
                       collect `(,s (&rest ,g!args2)
-                                   (apply ,f ,g!args2)))
+                                   (apply (symbol-function ',f) ,g!args2)))
            ,@body)))))
 
 (defmacro ari:with-ari-package (&rest body)
