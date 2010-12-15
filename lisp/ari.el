@@ -61,38 +61,6 @@
         (define-key keymap key cmd))))
   keymap)
 
-(defun ari:ari-symbol (symb)
-  (when (symbolp symb)
-    (loop for p in ari:*package-names*
-          for f = (intern (concat p ":" (symbol-name symb)))
-          if (fboundp f)
-            return f)))
-
-(defmacro ari:with-package (pkg &rest body)
-  "TODO: not implemented.")
-
-(defmacro ari:with-ari-package (&rest body)
-  (declare (indent 2))
-  "Allow unqualified `ari-*' symbols in the body. This is a magic."
-  (let ((args (gensym "args"))
-        (symbs (remove-duplicates (ari-seq:flatten body))))
-    (multiple-value-bind (fn mac)
-        (loop for s in symbs
-              for fn = (let ((it (ari:ari-symbol s))) (and it (symbol-function it)))
-              with fn-lst = nil
-              with mac-lst = nil
-              when fn
-                if (functionp fn) do (add-to-list 'fn-lst `(,s ,fn))
-                  else do (add-to-list 'mac-lst `(,s ,(cdr fn)))
-              finally return (values fn-lst mac-lst))
-      `(macrolet ,(loop for (s m) in mac
-                        collect `(,s (&rest ,args)
-                                     (apply ,m ,args)))
-         (flet ,(loop for (s f) in fn
-                      collect `(,s (&rest ,args)
-                                   (apply ,f ,args)))
-           ,@body)))))
-
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
   (and (symbolp s)
@@ -191,6 +159,39 @@
          (if ,g!sym
              (let ((it ,g!sym)) ,@(cdr cl1))
              (ari:acond ,@(cdr clauses)))))))
+
+(defun ari:ari-symbol (symb)
+  "Return a qualified symbol of ari-package."
+  (when (symbolp symb)
+    (loop for p in ari:*package-names*
+          for f = (intern (concat p ":" (symbol-name symb)))
+          if (fboundp f)
+            return f)))
+
+(defmacro ari:with-package (pkg &rest body)
+  (declare (indent 2))
+  "TODO: not implemented.")
+
+(ari:defmacro* ari:with-ari-package (&rest body)
+  (declare (indent 2))
+  "Allow unqualified `ari-*' symbols in the body. This is a magic."
+  (let ((symbs (remove-duplicates (ari-seq:flatten body))))
+    (multiple-value-bind (fn mac)
+        (loop for s in symbs
+              for fn = (let ((it (ari:ari-symbol s))) (and it (symbol-function it)))
+              with fn-lst = nil
+              with mac-lst = nil
+              when fn
+                if (functionp fn) do (add-to-list 'fn-lst `(,s ,fn))
+                  else do (add-to-list 'mac-lst `(,s ,(cdr fn)))
+              finally return (values fn-lst mac-lst))
+      `(macrolet ,(loop for (s m) in mac
+                        collect `(,s (&rest ,g!args1)
+                                     (apply ,m ,g!args1)))
+         (flet ,(loop for (s f) in fn
+                      collect `(,s (&rest ,g!args2)
+                                   (apply ,f ,g!args2)))
+           ,@body)))))
 
 (provide 'ari)
 ;; ari ends here
