@@ -9,7 +9,7 @@
 (require 'auto-install)
 
 (defvar ari-install:*ari-repository-uri*
-    "https://github.com/arielnetworks/ari-el/raw/master/lisp/")
+    "http://github.com/arielnetworks/ari-el/raw/master/lisp/")
 (defvar ari-install:*ari-file-names*
     '("ari.el"
       "ari/cursor.el"
