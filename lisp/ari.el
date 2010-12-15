@@ -174,17 +174,13 @@
           if (fboundp f)
             return f)))
 
-(defmacro ari:with-package (pkg &rest body)
+(ari:defmacro* ari:with-package (pkg &rest body)
   (declare (indent 2))
-  "TODO: not implemented.")
-
-(ari:defmacro* ari:with-ari-package (&rest body)
-  (declare (indent 2))
-  "Allow unqualified `ari-*' symbols in the body. This is a magic."
+  "Allow unqualified symbols in specified package in the body."
   (let ((symbs (remove-duplicates (ari-seq:flatten body))))
     (multiple-value-bind (fn mac)
         (loop for s in symbs
-              for fn = (ignore-errors (symbol-function (ari:ari-symbol s)))
+              for fn = (ignore-errors (symbol-function (ari:ari-symbol s pkg)))
               with fn-lst = nil
               with mac-lst = nil
               when fn
@@ -198,6 +194,11 @@
                       collect `(,s (&rest ,g!args2)
                                    (apply ,f ,g!args2)))
            ,@body)))))
+
+(defmacro ari:with-ari-package (&rest body)
+  (declare (indent 2))
+  "Allow unqualified `ari-*' symbols in the body. This is a magic."
+  `(ari:with-package nil ,@body))
 
 (provide 'ari)
 ;; ari ends here
