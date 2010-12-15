@@ -62,17 +62,18 @@
         (define-key keymap key cmd))))
   keymap)
 
-(defun ari:%g!-symbol-p (s)
-  "Returns whether a symbol starts with G!"
-  (and (symbolp s)
-       (> (length (symbol-name s)) 2)
-       (string= (downcase (substring (symbol-name s) 0 2)) "g!")))
+(eval-when-compile
+  (defun ari:%g!-symbol-p (s)
+    "Returns whether a symbol starts with G!"
+    (and (symbolp s)
+         (> (length (symbol-name s)) 2)
+         (string= (downcase (substring (symbol-name s) 0 2)) "g!")))
 
-(defun ari:%o!-symbol-p (s)
-  "Returns whether a symbol starts with O!"
-  (and (symbolp s)
-       (> (length (symbol-name s)) 2)
-       (string= (downcase (substring (symbol-name s) 0 2)) "o!")))
+  (defun ari:%o!-symbol-p (s)
+    "Returns whether a symbol starts with O!"
+    (and (symbolp s)
+         (> (length (symbol-name s)) 2)
+         (string= (downcase (substring (symbol-name s) 0 2)) "o!"))))
 
 (defun ari:%o!-symbol-to-g!-symbol (s)
   "Convert a o!-symbol to a g!-symbol and return that."
