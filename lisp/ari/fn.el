@@ -10,23 +10,23 @@
 
 ;; These macros are heavily inspired by f-underscore.
 
-(defmacro ari-fn:f (args &body body)
+(defmacro ari-fn:f (args &rest body)
   "a synonym for LAMBDA"
   `(lambda ,args ,@body))
 
-(defmacro ari-fn:f0 (&body body)
+(defmacro ari-fn:f0 (&rest body)
   "a LAMBDA that takes 0 arguments (aka a 'thunk')"
   `(lambda () ,@body))
 
-(defmacro ari-fn:f_ (&body body)
+(defmacro ari-fn:f_ (&rest body)
   "a LAMBDA that takes 1 argument: `_'"
   `(lambda (_) ,@body))
 
-(defmacro ari-fn:f_n (&body body)
+(defmacro ari-fn:f_n (&rest body)
   "a LAMBDA that takes 1 &REST argument: `_'"
   `(lambda (&rest _) ,@body))
 
-(defmacro ari-fn:f_% (&body body)
+(defmacro ari-fn:f_% (&rest body)
   "a LAMBDA that takes 1 &REST that it ignores"
   (let ((% (gensym "ignore")))
     `(lambda (&rest ,%)
@@ -34,7 +34,7 @@
        ,@body)))
 
 ;; NOTE: Is this should be here?
-(defmacro ari-fn:m (macro-lambda-list &body body)
+(defmacro ari-fn:m (macro-lambda-list &rest body)
   "a LAMBDA that has a macro-lambda-list instead of an ordinary lambda-list"
   (let ((% (gensym "macro-lambda-list")))
     (if (and (stringp (car body))
