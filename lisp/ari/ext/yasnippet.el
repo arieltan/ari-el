@@ -6,8 +6,6 @@
 
 ;;; Code:
 
-(require 'yasnippet)
-
 (defvar ari-ext-yasnippet:*oneshot-snippet* nil
   "Store a snippet for a temporaly purpose.")
 
