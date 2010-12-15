@@ -184,7 +184,7 @@
   (let ((symbs (remove-duplicates (ari-seq:flatten body))))
     (multiple-value-bind (fn mac)
         (loop for s in symbs
-              for fn = (let ((it (ari:ari-symbol s))) (and it (symbol-function it)))
+              for fn = (ignore-errors (symbol-function (ari:ari-symbol s)))
               with fn-lst = nil
               with mac-lst = nil
               when fn
