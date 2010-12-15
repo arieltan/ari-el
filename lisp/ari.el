@@ -8,6 +8,7 @@
 
 (require 'cl)
 (require 'ari/seq)
+(require 'ari/string)
 
 (defvar ari-version 0.1)
 
@@ -160,11 +161,16 @@
              (let ((it ,g!sym)) ,@(cdr cl1))
              (ari:acond ,@(cdr clauses)))))))
 
-(defun ari:ari-symbol (symb)
+(defun ari:ari-symbol (symb &optional package-name)
   "Return a qualified symbol of ari-package."
-  (when (symbolp symb)
-    (loop for p in ari:*package-names*
-          for f = (intern (concat p ":" (symbol-name symb)))
+  (flet ((intern-ari (symb pkg)
+           (intern (concat (ari-string:ensure-string pkg)
+                           ":"
+                           (ari-string:ensure-string symb)))))
+    (loop for p in (if package-name
+                       (list package-name)
+                       ari:*package-names*)
+          for f = (intern-ari symb p)
           if (fboundp f)
             return f)))
 
