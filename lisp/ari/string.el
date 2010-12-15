@@ -10,5 +10,12 @@
   "Convert argument to upper-capitalized form and return that."
   (replace-regexp-in-string "-" "" (capitalize str)))
 
+(defun ari-string:ensure-string (val)
+  "Convert an argument to string and return it."
+  (cond
+    ((symbolp val) (symbol-name val))
+    ((numberp val) (number-to-string val))
+    (t val)))
+
 (provide 'ari/string)
 ;; ari/string.el ends here
