@@ -11,6 +11,14 @@
 
 (defvar ari-version 0.1)
 
+;; FIXME: ignores directory (ex. ari-ext-yasnippet)
+(defvar ari:*package-names*
+    (cons "ari"
+          (mapcar
+           #'(lambda (file)
+               (concat "ari-" (substring file 0 (- (length file) 3))))
+           (directory-files "./ari" nil "\\.el$"))))
+
 (defmacro ari:require (lib &rest body)
   "Require a library safely."
   `(when (locate-library ,(symbol-name lib))
@@ -49,6 +57,27 @@
         (define-key keymap key cmd))))
   keymap)
 
+(defun ari:ari-func-p (symb)
+  (when (symbolp symb)
+    (loop for p in ari:*package-names*
+          for f = (intern (concat p ":" (symbol-name symb)))
+          if (fboundp f)
+            return f)))
+
+(defmacro ari:with-package (pkg &rest body)
+  "TODO: not implemented.")
+
+(defmacro ari:with-ari-package (&rest body)
+  (declare (indent 2))
+  "Allow unqualified `ari-*' symbols in the body. This is a magic."
+  (let ((args (gensym "args"))
+        (symbs (remove-duplicates (ari-seq:flatten body))))
+    `(flet ,(loop for s in symbs
+                  for f = (ari:ari-func-p s)
+                  if f collect `(,s (&rest ,args)
+                                    (apply (symbol-function ',f) ,args)))
+       ,@body)))
+
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
   (and (symbolp s)
@@ -73,10 +102,10 @@
                                (ari-seq:flatten body)))))
     `(defmacro ,name ,args
        (let ,(mapcar
-              (lambda (s)
-                `(,s (gensym ,(substring
-                               (symbol-name s)
-                               0 2))))
+              #'(lambda (s)
+                  `(,s (gensym ,(substring
+                                 (symbol-name s)
+                                 0 2))))
               symbs)
          ,@body))))
 
