@@ -71,6 +71,8 @@
 (defmacro ari:with-package (pkg &rest body)
   "TODO: not implemented.")
 
+;; FIXME: This won't work with a form, contains macros and functions.
+;;        ex. (ari:with-ari-package (f_ (1.. _)))
 (defmacro ari:with-ari-package (&rest body)
   (declare (indent 2))
   "Allow unqualified `ari-*' symbols in the body. This is a magic."
