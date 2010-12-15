@@ -47,4 +47,5 @@
            (destructuring-bind ,macro-lambda-list ,%
              ,@body)))))
 
+(provide 'ari/fn)
 ;; ari/fn.el ends here

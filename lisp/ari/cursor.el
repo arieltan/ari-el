@@ -39,4 +39,5 @@
        (or (ari-cursor:search-forward-with-char last-search-char) (backward-char)))
       ((eq last-search-direction 'backward) (ari-cursor:search-backward-with-char last-search-char)))))
 
+(provide 'ari/cursor)
 ;; ari/cursor.el ends here
