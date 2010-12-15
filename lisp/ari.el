@@ -20,19 +20,19 @@
                (concat "ari-" (substring file 0 (- (length file) 3))))
            (directory-files (concat (file-name-directory load-file-name) "ari") nil "\\.el$"))))
 
-;; NOTE: Is this enough to clear to take forms?
 ;; NOTE: Should to raise any warnings?
-(defmacro ari:require (lib &rest body)
+(defmacro ari:when-require (lib &rest body)
+  (declare (indent 1))
   "Require a library safely."
   `(when (locate-library ,(symbol-name lib))
      (require ',lib) ,@body t))
 
-;; NOTE: Is this enough to clear that taking body?
 ;; NOTE: Should to raise any warnings?
-(defmacro ari:autoload (func lib &rest body)
+(defmacro ari:when-autoloads (fn-lst lib &rest body)
+  (declare (indent 1))
   "Autoload a library safely."
   `(when (locate-library ,lib)
-     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) func)
+     ,@(mapcar (lambda (f) `(autoload ',f ,lib nil t)) fn-lst)
      (eval-after-load ,lib
        '(progn
          ,@body)) t))
