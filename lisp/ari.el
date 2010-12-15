@@ -71,17 +71,19 @@
 (defmacro ari:with-package (pkg &rest body)
   "TODO: not implemented.")
 
-;; FIXME: This works for functions, not for macros.
 (defmacro ari:with-ari-package (&rest body)
   (declare (indent 2))
   "Allow unqualified `ari-*' symbols in the body. This is a magic."
   (let ((args (gensym "args"))
         (symbs (remove-duplicates (ari-seq:flatten body))))
-    `(flet ,(loop for s in symbs
-                  for f = (ari:ari-func-p s)
-                  if f collect `(,s (&rest ,args)
-                                    (apply (symbol-function ',f) ,args)))
-       ,@body)))
+    (flet ((get-fn (s)
+             (let ((fn (symbol-function s)))
+               (if (functionp fn) fn (cdr fn)))))
+      `(flet ,(loop for s in symbs
+                    for f = (ari:ari-func-p s)
+                    if f collect `(,s (&rest ,args)
+                                      (apply ,(get-fn f) ,args)))
+         ,@body))))
 
 (defun ari:%g!-symbol-p (s)
   "Returns whether a symbol starts with G!"
