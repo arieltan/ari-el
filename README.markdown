@@ -6,9 +6,16 @@ This is an useful library collection for Emacs, written by Emacs users in Ariel 
 
 ## Installation
 
-Put all files, in the "lisp" directory, to your load-path.
+We recommend you to install [auto-install.el](http://www.emacswiki.org/AutoInstall) if you are not ready to use it yet.
 
-    (require 'ari)
+    (let ((buffer (url-retrieve-synchronously
+                   "https://github.com/arielnetworks/ari-el/raw/master/ari-install.el")))
+      (save-excursion
+        (set-buffer buffer)
+        (goto-char (point-min))
+        (re-search-forward "^$" nil 'move)
+        (eval-region (point) (point-max))
+        (kill-buffer (current-buffer))))
 
 ## Packages
 
