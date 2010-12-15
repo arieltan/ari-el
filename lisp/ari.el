@@ -17,7 +17,7 @@
           (mapcar
            #'(lambda (file)
                (concat "ari-" (substring file 0 (- (length file) 3))))
-           (directory-files "./ari" nil "\\.el$"))))
+           (directory-files (concat (file-name-directory load-file-name) "ari") nil "\\.el$"))))
 
 ;; NOTE: Is this enough to clear to take forms?
 ;; NOTE: Should to raise any warnings?
