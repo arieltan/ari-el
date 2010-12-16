@@ -1,8 +1,8 @@
-;; ari/util.el - Common utilities.
+;; ari-util.el - Common utilities.
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
-;; For the full copyright and license information, please see the COPYRIGHT
+;; For the full copyright and license information, please see the COPYRIGHT.
 
 ;;; Code:
 
@@ -15,5 +15,5 @@
               :initial-value x
               :from-end t)))
 
-(provide 'ari/util)
-;; ari/util.el ends here
+(provide 'ari-util)
+;; ari-util.el ends here

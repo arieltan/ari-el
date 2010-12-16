@@ -1,8 +1,8 @@
-;; ari/cursor.el - Utilities to move a cursor.
+;; ari-cursor.el - Utilities to move a cursor.
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
-;; For the full copyright and license information, please see the COPYRIGHT
+;; For the full copyright and license information, please see the COPYRIGHT.
 
 ;;; Code:
 
@@ -39,5 +39,5 @@
        (or (ari-cursor:search-forward-with-char last-search-char) (backward-char)))
       ((eq last-search-direction 'backward) (ari-cursor:search-backward-with-char last-search-char)))))
 
-(provide 'ari/cursor)
-;; ari/cursor.el ends here
+(provide 'ari-cursor)
+;; ari-cursor.el ends here

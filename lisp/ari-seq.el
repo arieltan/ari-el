@@ -1,8 +1,8 @@
-;; ari/seq.el - Sequence utilities.
+;; ari-seq.el - Sequence utilities.
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
-;; For the full copyright and license information, please see the COPYRIGHT
+;; For the full copyright and license information, please see the COPYRIGHT.
 
 ;;; Code:
 
@@ -50,5 +50,5 @@
 (defun ari-seq:0.. (end)
   (ari-seq:n.. 0 end))
 
-(provide 'ari/seq)
-;; ari/seq.el ends here
+(provide 'ari-seq)
+;; ari-seq.el ends here

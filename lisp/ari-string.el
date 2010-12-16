@@ -1,8 +1,8 @@
-;; ari/string.el - String utilities.
+;; ari-string.el - String utilities.
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
-;; For the full copyright and license information, please see the COPYRIGHT
+;; For the full copyright and license information, please see the COPYRIGHT.
 
 ;;; Code:
 
@@ -17,5 +17,5 @@
     ((numberp val) (number-to-string val))
     (t val)))
 
-(provide 'ari/string)
-;; ari/string.el ends here
+(provide 'ari-string)
+;; ari-string.el ends here
