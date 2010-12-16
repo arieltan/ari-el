@@ -11,15 +11,15 @@
 (defvar ari-install:*ari-repository-uri*
     "http://github.com/arielnetworks/ari-el/raw/master/lisp/")
 (defvar ari-install:*ari-file-names*
-    '("ari.el"
-      "ari-cursor.el"
+    '("ari-cursor.el"
       "ari-debug.el"
       "ari-fn.el"
       "ari-net.el"
       "ari-seq.el"
       "ari-string.el"
       "ari-util.el"
-      "ari-ext-yasnippet.el"))
+      "ari-ext-yasnippet.el"
+      "ari.el"))
 
 (add-to-list 'auto-install-batch-list
              `("ari.el"
