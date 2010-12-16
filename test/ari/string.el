@@ -1,4 +1,4 @@
-;; Tests for ari/string.el
+;; Tests for ari-string.el
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
@@ -7,7 +7,7 @@
 ;;; Code:
 
 (require 'el-expectations)
-(require 'ariel/string)
+(require 'ari-string)
 
 (expectations
   (desc "ari-string:upper-camelcase")

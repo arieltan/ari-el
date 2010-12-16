@@ -1,4 +1,4 @@
-;; Tests for ari/seq.el
+;; Tests for ari-seq.el
 
 ;; This file is a part of the ari.el (http://github.com/arielnetworks/ari-el)
 ;; Copyright (c) 2010 Ariel Networks, Inc.
@@ -7,7 +7,7 @@
 ;;; Code:
 
 (require 'el-expectations)
-(require 'ariel/seq)
+(require 'ariel-seq)
 
 (expectations
   (desc "ari-seq:append-to-list")

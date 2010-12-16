@@ -7,8 +7,8 @@
 ;;; Code:
 
 (require 'cl)
-(require 'ari/seq)
-(require 'ari/string)
+(require 'ari-seq)
+(require 'ari-string)
 
 (defvar ari-version 0.1)
 
