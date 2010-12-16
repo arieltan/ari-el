@@ -17,6 +17,12 @@ We recommend you to install [auto-install.el](http://www.emacswiki.org/AutoInsta
         (eval-region (point) (point-max))
         (kill-buffer (current-buffer))))
 
+Do you have any problem? Try a below process.
+
+    $ wget https://github.com/arielnetworks/ari-el/zipball/master
+    $ unzip arielnetworks-ari-el-*.zip
+    $ cp arielnetworks-ari-el-*/lisp/* /path/to/your/load-path
+
 ## Packages
 
 * ari
