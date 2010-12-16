@@ -12,13 +12,10 @@
 
 (defvar ari-version 0.1)
 
-;; FIXME: ignores directory (ex. ari-ext-yasnippet)
 (defvar ari:*package-names*
-    (cons "ari"
-          (mapcar
-           #'(lambda (file)
-               (concat "ari-" (substring file 0 (- (length file) 3))))
-           (directory-files (concat (file-name-directory load-file-name) "ari") nil "\\.el$"))))
+    (mapcar #'(lambda (file)
+                (substring file 0 (- (length file) 3)))
+            (directory-files (file-name-directory load-file-name) nil "^ari-.+el$")))
 
 ;; NOTE: Should to raise any warnings?
 (defmacro ari:when-require (lib &rest body)
