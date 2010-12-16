@@ -170,24 +170,28 @@
     (loop for p in (if package-name
                        (list package-name)
                        ari:*package-names*)
-          for f = (intern-ari symb p)
-          if (fboundp f)
-            return f)))
+          for ari-symb = (intern-ari symb p)
+          if (or (boundp ari-symb) (fboundp ari-symb))
+            return ari-symb)))
 
 (ari:defmacro* ari:with-package (pkg &rest body)
   (declare (indent 2))
   "Allow unqualified symbols in specified package in the body."
   (let ((symbs (remove-duplicates (ari-seq:flatten body))))
-    (multiple-value-bind (fn mac)
+    (multiple-value-bind (val fn mac)
         (loop for s in symbs
-              for fn = (ari:ari-symbol s pkg)
+              for ari-symb = (ari:ari-symbol s pkg)
+              with val-lst = nil
               with fn-lst = nil
               with mac-lst = nil
-              when fn
-                if (functionp (symbol-function fn))
-                  do (add-to-list 'fn-lst `(,s ,fn))
-              else do (add-to-list 'mac-lst `(,s ,fn))
-              finally return (values fn-lst mac-lst))
+              when ari-symb do
+                (cond
+                  ((functionp (ignore-errors (symbol-function ari-symb)))
+                   (add-to-list 'fn-lst `(,s ,ari-symb)))
+                  ((ignore-errors (symbol-function ari-symb))
+                   (add-to-list 'mac-lst `(,s ,ari-symb)))
+                  (t (add-to-list 'val-lst `(,s ,ari-symb))))
+              finally return (values val-lst fn-lst mac-lst))
       `(macrolet ,(loop for (s m) in mac
                         collect `(,s (&rest ,g!args1)
                                      (apply (cdr (symbol-function ',m))
@@ -195,7 +199,9 @@
          (flet ,(loop for (s f) in fn
                       collect `(,s (&rest ,g!args2)
                                    (apply (symbol-function ',f) ,g!args2)))
-           ,@body)))))
+           (let ,(loop for (s v) in val
+                       collect `(,s ,v))
+             ,@body))))))
 
 (defmacro ari:with-ari-package (&rest body)
   (declare (indent 2))
