@@ -13,9 +13,11 @@
 (defvar ari-version 0.1)
 
 (defvar ari:*package-names*
-    (mapcar #'(lambda (file)
-                (substring file 0 (- (length file) 3)))
-            (directory-files (file-name-directory load-file-name) nil "^ari-.+el$")))
+    (cons "ari"
+          (mapcar #'(lambda (file)
+                      (substring file 0 (- (length file) 3)))
+                  (directory-files (file-name-directory load-file-name) nil
+                                   "^ari-.+el$"))))
 
 ;; NOTE: Should to raise any warnings?
 (defmacro ari:when-require (lib &rest body)
