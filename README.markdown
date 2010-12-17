@@ -32,6 +32,7 @@ Do you have any problem? Try a below process.
 * ari-net
 * ari-seq
 * ari-string
+* ari-symbol
 * ari-util
 * ari-ext-yasnippet
 

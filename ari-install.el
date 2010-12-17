@@ -17,6 +17,7 @@
       "ari-net.el"
       "ari-seq.el"
       "ari-string.el"
+      "ari-symbol.el"
       "ari-util.el"
       "ari-ext-yasnippet.el"
       "ari.el"))
