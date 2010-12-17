@@ -9,6 +9,7 @@
 (require 'cl)
 (require 'ari-seq)
 (require 'ari-string)
+(require 'ari-symbol)
 
 (defvar ari-version 0.1)
 
@@ -164,16 +165,12 @@
 
 (defun ari:ari-symbol (symb &optional package-name)
   "Return a qualified symbol of ari-package."
-  (flet ((intern-ari (symb pkg)
-           (intern (concat (ari-string:ensure-string pkg)
-                           ":"
-                           (ari-string:ensure-string symb)))))
-    (loop for p in (if package-name
+  (loop for pkg in (if package-name
                        (list package-name)
-                       ari:*package-names*)
-          for ari-symb = (intern-ari symb p)
-          if (or (boundp ari-symb) (fboundp ari-symb))
-            return ari-symb)))
+                       ari:*packages*)
+        for ari-symb = (ari-symbol:symbol-concat pkg ': symb)
+        if (or (boundp ari-symb) (fboundp ari-symb))
+          return ari-symb))
 
 (ari:defmacro* ari:with-package (pkg &rest body)
   (declare (indent 2))
