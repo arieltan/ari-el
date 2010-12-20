@@ -39,5 +39,14 @@
        (or (ari-cursor:search-forward-with-char last-search-char) (backward-char)))
       ((eq last-search-direction 'backward) (ari-cursor:search-backward-with-char last-search-char)))))
 
+(defun ari-cursor:kill-word-at-point ()
+  "Kill a word under the cursor."
+  (interactive)
+  (let ((char (char-to-string (char-after (point)))))
+    (cond
+     ((string= " " char) (delete-horizontal-space))
+     ((string-match "[\t\n -@\[-`{-~]" char) (kill-word 1))
+     (t (forward-char) (backward-word) (kill-word 1)))))
+
 (provide 'ari-cursor)
 ;; ari-cursor.el ends here
