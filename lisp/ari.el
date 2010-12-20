@@ -21,6 +21,10 @@
                                     (or load-file-name buffer-file-name)) nil
                                     "^ari-.+el$"))))
 
+(defun ari:require-ari-all ()
+  "Require all ari packages."
+  (mapcar #'require ari:*packages*))
+
 ;; NOTE: Should to raise any warnings?
 (defmacro ari:when-require (lib &rest body)
   (declare (indent 1))
