@@ -210,5 +210,15 @@
   "Allow unqualified `ari-*' symbols in the body. This is a magic."
   `(ari:with-package nil ,@body))
 
+(defmacro ari:cond-cons (&rest clauses)
+  "Construct a list by conditional."
+  (labels ((rec (clauses)
+             (if clauses
+                 (let ((clause (car clauses))
+                       (r (rec (cdr clauses))))
+                   `(if ,(car clause) (cons (progn ,@(cdr clause)) ,r) ,r))
+                 nil)))
+    (rec clauses)))
+
 (provide 'ari)
 ;; ari ends here
