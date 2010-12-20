@@ -50,5 +50,9 @@
 (defun ari-seq:0.. (end)
   (ari-seq:n.. 0 end))
 
+(defun ari-seq:vector-to-list (vec)
+  "Convert a vector into a list."
+  (append vec nil))
+
 (provide 'ari-seq)
 ;; ari-seq.el ends here
