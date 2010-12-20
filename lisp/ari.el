@@ -49,6 +49,9 @@
 (defmacro ari:global-set-key-fn (key &rest body)
   `(global-set-key ,key #'(lambda () (interactive) ,@body)))
 
+(defmacro ari:define-key-fn (keymap key &rest body)
+  `(define-key ,keymap ,key (lambda () (interactive) ,@body)))
+
 (defmacro ari:defadvice-many (fn-name-list class &rest body)
   "Define advices, having same body forms."
   `(progn
