@@ -213,6 +213,11 @@
   "Allow unqualified `ari-*' symbols in the body. This is a magic."
   `(ari:with-package nil ,@body))
 
+(defun ari:import (&rest symbols)
+  "Import ari symbols into global namespace to use without package names."
+  (loop for symb in symbols
+        do (defalias symb (ari:ari-symbol symb))))
+
 (defmacro ari:cond-cons (&rest clauses)
   "Construct a list by conditional."
   (labels ((rec (clauses)
