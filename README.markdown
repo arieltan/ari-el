@@ -52,5 +52,5 @@ Do you have any problem? Try a below process.
 
 ## License
 
-Copyright (c) 2010 Ariel Networks, Inc. All rights reserved.  
+Copyright (c) 2010-2011 Ariel Networks, Inc. All rights reserved.  
 For detail, see COPYING file.
