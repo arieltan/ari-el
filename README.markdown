@@ -9,7 +9,7 @@ This is an useful library collection for Emacs, written by Emacs users in Ariel 
 We recommend you to install [auto-install.el](http://www.emacswiki.org/AutoInstall) if you are not ready to use it yet.
 
     (let ((buffer (url-retrieve-synchronously
-                   "http://github.com/arielnetworks/ari-el/raw/master/ari-install.el")))
+                   "https://raw.github.com/arieltan/ari-el/master/ari-install.el")))
       (save-excursion
         (set-buffer buffer)
         (goto-char (point-min))
@@ -19,9 +19,9 @@ We recommend you to install [auto-install.el](http://www.emacswiki.org/AutoInsta
 
 Do you have any problem? Try a below process.
 
-    $ wget https://github.com/arielnetworks/ari-el/zipball/master
-    $ unzip arielnetworks-ari-el-*.zip
-    $ cp arielnetworks-ari-el-*/lisp/* /path/to/your/load-path
+    $ wget https://github.com/arieltan/ari-el/zipball/master
+    $ unzip master
+    $ cp arieltan-ari-el-*/lisp/* /path/to/your/load-path
 
 ## Packages
 
@@ -52,5 +52,5 @@ Do you have any problem? Try a below process.
 
 ## License
 
-Copyright (c) 2010-2011 Ariel Networks, Inc. All rights reserved.  
+Copyright (c) 2010-2011 Ariel Networks, Inc. All rights reserved.
 For detail, see COPYING file.
